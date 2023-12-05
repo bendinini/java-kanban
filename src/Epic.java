@@ -1,15 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Epic {
+public class Epic extends Task {
     private int id;
     private String epicId;
+    private String title;
+    private String description;
     private String status;
     private List<Integer> epicSubtasks;
 
-    public Epic(String epicId, String status) {
+    public Epic (String epicId, String Status) {
+        super (epicId, Status);
         this.epicId = epicId;
-        this.status = status;
+        status = Status.NEW;
+        this.description = description;
         this.epicSubtasks = new ArrayList<>();
     }
 
@@ -25,13 +29,20 @@ public class Epic {
         return epicId;
     }
 
-    public void setEpicId(String epicId) {
-        this.epicId = epicId;
+    public String getDescription(){
+        return description;
+    }
+    public void setDescription(String description){
+        this.description = description;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    //public void setEpicId(String epicId) {
+        //this.epicId = epicId;
+    //}
+
+    //public String getStatus() {
+        //return status;
+    //}
 
     public void setStatus(String status) {
         this.status = status;
@@ -39,5 +50,16 @@ public class Epic {
 
     public List<Integer> getEpicSubtasks() {
         return epicSubtasks;
+    }
+
+    @Override
+    public String toString() {
+        return "Подзадача{" +
+                "ID Epic='" + epicId + '\'' +
+                ", Title='" + getTitle() + '\'' +
+                ", Description='" + getDescription() + '\'' +
+                ", Status='" + getStatus() + '\'' +
+                ", SubTaskID='" + epicSubtasks +'\'' +
+                '}';
     }
 }

@@ -4,15 +4,12 @@ import java.util.List;
 
 public class Manager {
     private int id;
-    private HashMap<Integer, Task> allTasks;
-    private HashMap<Integer, Epic> allEpics;
-    private HashMap<Integer, Subtask> allSubtasks;
+    private final HashMap<Integer, Task> allTasks = new HashMap<>();
+    private final HashMap<Integer, Epic> allEpics = new HashMap<>();
+    private final HashMap<Integer, Subtask> allSubtasks = new HashMap<>();
 
     public Manager() {
-        id = 1;
-        allTasks = new HashMap<>();
-        allEpics = new HashMap<>();
-        allSubtasks = new HashMap<>();
+
     }
 
     public void addTask(Task task) {
