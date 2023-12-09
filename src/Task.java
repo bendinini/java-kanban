@@ -4,8 +4,6 @@ public class Task {
     private String description;
     private String status;
 
-
-
     public Task (String title, String description) {
         this.title = title;
         this.description = description;

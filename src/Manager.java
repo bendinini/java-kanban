@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Manager {
+public class Manager  {
     private int id;
     private final HashMap<Integer, Task> allTasks = new HashMap<>();
     private final HashMap<Integer, Epic> allEpics = new HashMap<>();
