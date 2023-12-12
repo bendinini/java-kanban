@@ -1,19 +1,19 @@
 package tasks;
 
 public class Subtask extends tasks.Task {
-    private Epic epic;
+    private Epic idEpic;
 
     public Subtask(String title, String description, String status, Epic epic) {
         super();
-        this.epic = epic;
+        this.idEpic = epic;
     }
 
     public Epic getEpic() {
-        return epic;
+        return idEpic;
     }
 
     public void setEpic(Epic epic) {
-        this.epic = epic;
+        this.idEpic = epic;
     }
 
     @Override
