@@ -5,8 +5,8 @@ import tasks.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Manager { // класс для объекта менеджер
-    private int id; //хранение задач для Задач, Подзадач и Эпиков:
+public class Manager {
+    private int id;
     private HashMap<Integer, Task> tasks;
     private HashMap<Integer, Subtask> subtasks;
     private HashMap<Integer, Epic> epics;
@@ -57,7 +57,6 @@ public class Manager { // класс для объекта менеджер
     }
 
     public void updateEpic(Epic epic) {
-        epic.setEpicSubtasks(epics.get(epic.getId()).getEpicSubtasks());
         epics.put(epic.getId(), epic);
         checkEpicStatus(epic);
     }
@@ -126,15 +125,15 @@ public class Manager { // класс для объекта менеджер
         }
         subtasks.clear();
         for (Epic epic : epicsForStatusUpdate) {
-            epic.setStatus("Новая");
+            epic.setStatus("New");
         }
     }
 
     // статусы эпиков
     private void checkEpicStatus(Epic epic) {
 
-        if (epic.getEpicSubtasks().size() == 0) {
-            epic.setStatus("Новая");
+        if (epic.getEpicSubtasks().isEmpty()) {
+            epic.setStatus("New");
             return;
         }
 
@@ -143,22 +142,21 @@ public class Manager { // класс для объекта менеджер
 
         for (Integer epicSubtaskId : epic.getEpicSubtasks()) {
             String status = subtasks.get(epicSubtaskId).getStatus();
-            if (!status.equals("Новая")) {
+            if (!status.equals("New")) {
                 allTaskIsNew = false;
             }
-            if (!status.equals("Выполнено!")) {
+            if (!status.equals("DONE!")) {
                 allTaskIsDone = false;
             }
         }
 
         if (allTaskIsDone) {
-            epic.setStatus("Выполнено!");
+            epic.setStatus("DONE!");
         } else if (allTaskIsNew) {
-            epic.setStatus("Новая");
+            epic.setStatus("New");
         } else {
-            epic.setStatus("В процессе выполнения...");
+            epic.setStatus("IN PROGRESS...");
         }
 
     }
-
 }
