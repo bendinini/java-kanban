@@ -7,5 +7,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../m1-t23-junit" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../m1-t23-junit/out/test/m1-t23-junit" />
+          <root url="file://$MODULE_DIR$/../m1-t23-junit/src" />
+          <root url="file://$MODULE_DIR$/../m1-t23-junit/test" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

@@ -1,11 +1,10 @@
-package tasks;
-
-public class Subtask extends tasks.Task {
+public class Subtask extends Task {
     private Epic idEpic;
 
     public Subtask(String title, String description, String status, Epic epic) {
-        super();
+        super(title, description);
         this.idEpic = epic;
+        this.setStatus(status);
     }
 
     public Epic getEpic() {
