@@ -1,8 +1,8 @@
 public class Task {
-    protected int id;
-    protected String title;
-    protected String description;
-    protected String status;
+    private int id;  //сделала через privare
+    private String title;
+    private String description;
+    private String status;
 
     public Task() {
         this.title = "";

@@ -8,36 +8,33 @@ public class Manager implements InMemoryTaskManager {
     private HashMap<Integer, Subtask> subtasks;
     private HashMap<Integer, Epic> epics;
 
-
     public Manager() {
         id = 0;
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
-
     }
 
-    //Задачи: добавляем task
+
+    // Методы для задач
+
+    @Override
+    public ArrayList<Task> getHistory() {
+        return null;
+    }
+
     @Override
     public void addTask(Task task) {
         task.setId(++id);
         tasks.put(id, task);
     }
 
-    // храним task
     @Override
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
+        updateHistory(task, taskHistory);
     }
 
-    private void updateHistory(Task task, LinkedList<Object> history) {
-        if (history.size() >= 10) {
-            history.removeFirst();
-        }
-        history.addLast(task);
-    }
-
-    // извлекаем task
     @Override
     public Task getTask(int id) {
         return tasks.getOrDefault(id, null);
@@ -48,20 +45,17 @@ public class Manager implements InMemoryTaskManager {
         return tasks;
     }
 
-    // метод для удаления
     @Override
     public void deleteTask(int id) {
-        if (tasks.containsKey(id)) {
-            tasks.remove(id);
-        }
+        tasks.remove(id);
     }
 
     @Override
     public void deleteAllTasks() {
         tasks.clear();
     }
+    // Методы для эпиков
 
-    //Эпики пошли
     @Override
     public void addEpic(Epic epic) {
         epic.setId(++id);
@@ -73,6 +67,7 @@ public class Manager implements InMemoryTaskManager {
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
         checkEpicStatus(epic);
+
     }
 
     @Override
@@ -103,7 +98,9 @@ public class Manager implements InMemoryTaskManager {
         subtasks.clear();
     }
 
-    //Аналогично для подзадач
+
+    // Методы для подзадач
+
     @Override
     public void addSubtask(Subtask subtask) {
         subtask.setId(++id);
@@ -116,12 +113,6 @@ public class Manager implements InMemoryTaskManager {
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
         checkEpicStatus(subtask.getEpic());
-    }
-
-    @Override
-    public ArrayList<Task> getHistory() {
-        int history;
-        return new ArrayList<>(history);
     }
 
     @Override
@@ -146,6 +137,11 @@ public class Manager implements InMemoryTaskManager {
 
     @Override
     public void deleteAllSubtask() {
+
+    }
+
+    @Override
+    public void deleteAllSubtasks() {
         ArrayList<Epic> epicsForStatusUpdate = new ArrayList<>();
         for (Subtask subtask : subtasks.values()) {
             subtask.getEpic().setEpicSubtasks(new ArrayList<>());
@@ -159,7 +155,17 @@ public class Manager implements InMemoryTaskManager {
         }
     }
 
-    // статусы эпиков
+// Остальные методы и поля
+
+    private LinkedList<Object> taskHistory = new LinkedList<>();
+
+    private void updateHistory(Task task, LinkedList<Object> history) {
+        if (history.size() >= 10) {
+            history.removeFirst();
+        }
+        history.addLast(task);
+    }
+
     private void checkEpicStatus(Epic epic) {
 
         if (epic.getEpicSubtasks().isEmpty()) {
@@ -191,6 +197,7 @@ public class Manager implements InMemoryTaskManager {
     }
 
     public static Manager getDefault() {
-        return new Manager();
+        Manager manager = new Manager();
+        return manager;
     }
 }

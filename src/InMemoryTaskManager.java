@@ -4,23 +4,23 @@ import java.util.HashMap;
 public interface InMemoryTaskManager {
 
     ArrayList<Task> getHistory();
-    //Задачи: добавляем task
+    // Добавляем task-и
     void addTask(Task task);
 
-    // храним task
+    // Храним task-и
     void updateTask(Task task);
 
-    // извлекаем task
+    // Извлекаем task-и
     Task getTask(int id);
 
     HashMap<Integer, Task> getTasks();
 
-    // метод для удаления
+    // Удаление
     void deleteTask(int id);
 
     void deleteAllTasks();
 
-    //Эпики пошли
+    //Эпики
     void addEpic(Epic epic);
 
     void updateEpic(Epic epic);
@@ -33,7 +33,7 @@ public interface InMemoryTaskManager {
 
     void deleteAllEpics();
 
-    //Аналогично для подзадач
+    //Подзадачи
     void addSubtask(Subtask subtask);
 
     void updateSubtask(Subtask subtask);
@@ -45,4 +45,6 @@ public interface InMemoryTaskManager {
     void deleteSubtask(int id);
 
     void deleteAllSubtask();
+
+    void deleteAllSubtasks();
 }

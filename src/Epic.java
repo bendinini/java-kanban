@@ -20,10 +20,10 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return "Эпик{" +
-                "№=" + id +
-                ", Название='" + title + '\'' +
-                ", Описание='" + description + '\'' +
-                ", Статус='" + status + '\'' +
+                "№=" + getId() +
+                ", Название='" + getTitle() + '\'' +
+                ", Описание='" + getDescription() + '\'' +
+                ", Статус='" + getStatus() + '\'' +
                 '}';
     }
 
