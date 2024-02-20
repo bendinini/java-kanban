@@ -1,3 +1,7 @@
+package models;
+
+import models.Task;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -26,6 +30,4 @@ public class Epic extends Task {
                 ", Статус='" + getStatus() + '\'' +
                 '}';
     }
-
-
 }

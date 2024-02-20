@@ -1,20 +1,25 @@
-public class Subtask extends Task {
-    private int idEpic; //исправила, надеюсь правильно
-    private Manager manager;
+package models;
 
-    public Subtask(String title, String description, String status, int epicId, Manager manager) {
+import models.Epic;
+import models.Task;
+
+public class Subtask extends Task {
+    private int idEpic;
+    private Epic epic;
+
+    public Subtask(String title, String description, String status, int id, int epicId, Epic epic){
         super(title, description);
         this.idEpic = epicId;
         this.setStatus(status);
-        this.manager = manager;
+        this.epic = epic;
+    }
+
+    public int getIdEpic() {
+        return idEpic;
     }
 
     public Epic getEpic() {
-        return manager.getEpic(idEpic);
-    }
-
-    public void setEpic(Epic epic) {
-        this.idEpic = epic.getId();
+        return epic;
     }
 
     @Override

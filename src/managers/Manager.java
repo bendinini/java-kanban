@@ -1,3 +1,9 @@
+package managers;
+
+import models.Epic;
+import models.Subtask;
+import models.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -7,6 +13,9 @@ public class Manager implements InMemoryTaskManager {
     private HashMap<Integer, Task> tasks;
     private HashMap<Integer, Subtask> subtasks;
     private HashMap<Integer, Epic> epics;
+    private LinkedList<Object> taskHistory;
+
+
 
     public Manager() {
         id = 0;
@@ -105,8 +114,9 @@ public class Manager implements InMemoryTaskManager {
     public void addSubtask(Subtask subtask) {
         subtask.setId(++id);
         subtasks.put(id, subtask);
-        subtask.getEpic().getEpicSubtasks().add(id);
-        checkEpicStatus(subtask.getEpic());
+        Epic epic = epics.get(subtask.getIdEpic());
+        epic.getEpicSubtasks().add(id);
+        checkEpicStatus(epic);
     }
 
     @Override
@@ -137,7 +147,7 @@ public class Manager implements InMemoryTaskManager {
 
     @Override
     public void deleteAllSubtask() {
-
+        subtasks.clear();
     }
 
     @Override
@@ -155,9 +165,7 @@ public class Manager implements InMemoryTaskManager {
         }
     }
 
-// Остальные методы и поля
-
-    private LinkedList<Object> taskHistory = new LinkedList<>();
+    // Остальные методы и поля
 
     private void updateHistory(Task task, LinkedList<Object> history) {
         if (history.size() >= 10) {
