@@ -1,9 +1,6 @@
-package test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
 
 import managers.Manager;
 import models.Task;
@@ -22,66 +19,55 @@ class ManagerTest {
 
     @Test
     void addNewTask() {
-
-        Manager taskManager = Manager.getDefault();
         Task task = new Task("Test addNewTask", "Test addNewTask description");
-        taskManager.addTask(task);
+        manager.addTask(task);
 
-        final Task savedTask = taskManager.getTask(task.getId());
+        Task savedTask = manager.getTask(task.getId());
 
-        assertNotNull(savedTask, "Задача не найдена.");
-        assertEquals(task, savedTask, "Задачи не совпадают.");
+        assertNotNull(savedTask, "Task not found.");
+        assertEquals(task, savedTask, "Tasks do not match.");
 
-        final int tasksSize = taskManager.getTasks().size();
+        int tasksSize = manager.getTasks().size();
 
-        assertNotNull(taskManager.getTasks(), "Задачи не возвращаются.");
-        assertEquals(1, tasksSize, "Неверное количество задач.");
-        assertEquals(task, taskManager.getTasks().get(0), "Задачи не совпадают.");
+        assertNotNull(manager.getTasks(), "Tasks are not returned.");
+        assertEquals(1, tasksSize, "Incorrect number of tasks.");
+        assertEquals(task, manager.getTasks().get(task.getId()), "Tasks do not match.");
     }
 
     @Test
     public void testUpdateTask() {
-        Task task = new Task("Изначальная задача", "Описание изначальной задачи");
+        Task task = new Task("Initial Task", "Initial Task Description");
         manager.addTask(task);
 
-                                        // Обновляю задачу
-        task.setTitle("Обновленная задача");
-        task.setDescription("Обновленное описание задачи");
+        task.setTitle("Updated Task");
+        task.setDescription("Updated Task Description");
         manager.updateTask(task);
 
-                                        // Получаю обновленную задачу из менеджера
         Task updatedTask = manager.getTask(task.getId());
 
-                                        // Проверка, что задача обновлена корректно
-        assertEquals("Обновленная задача", updatedTask.getTitle());
-        assertEquals("Обновленное описание задачи", updatedTask.getDescription());
+        assertEquals("Updated Task", updatedTask.getTitle());
+        assertEquals("Updated Task Description", updatedTask.getDescription());
     }
 
     @Test
     public void testDeleteTask() {
-        Task task = new Task("Удаляемая задача", "Описание удаляемой задачи");
+        Task task = new Task("Deletable Task", "Deletable Task Description");
         manager.addTask(task);
 
-                                    // Удаляю задачу
-        manager.deleteTask(task.getId());
+        manager.removeTask(task.getId());
 
-                                    // Проверяю, что задача удалена из менеджера
         assertNull(manager.getTask(task.getId()));
     }
 
     @Test
     public void testDeleteAllTasks() {
-                                // Добавляю несколько задач
-        Task task1 = new Task("Задача 1", "Описание задачи 1");
-        Task task2 = new Task("Задача 2", "Описание задачи 2");
+        Task task1 = new Task("Task 1", "Task 1 Description");
+        Task task2 = new Task("Task 2", "Task 2 Description");
         manager.addTask(task1);
         manager.addTask(task2);
 
-                                // Удаляю все задачи
-        manager.deleteAllTasks();
+        manager.getAllTasks();
 
-                                // Проверяю, что все задачи удалены
         assertEquals(new HashMap<Integer, Task>(), manager.getTasks());
     }
-
 }

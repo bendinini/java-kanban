@@ -8,17 +8,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        Manager manager = new Manager() {
-            @java.lang.Override
-            public ArrayList<Task> getHistory() {
-                return null;
-            }
-
-            @java.lang.Override
-            public void deleteAllSubtask() {
-
-            }
-        };
+        Manager manager = new Manager(); // Создаем экземпляр класса Manager напрямую
 
         performTaskAdditionAndUpdates(manager);
         printEpicsAndSubtasks(manager);
