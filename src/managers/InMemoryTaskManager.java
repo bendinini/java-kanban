@@ -4,96 +4,53 @@ import models.Epic;
 import models.Subtask;
 import models.Task;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class InMemoryTaskManager implements TaskManager {
-    protected Map<Integer, Task> tasks = new HashMap<>();
-    protected Map<Integer, Epic> epics = new HashMap<>();
-    protected Map<Integer, Subtask> subtasks = new HashMap<>();
-    protected int nextId = 1;
+public interface InMemoryTaskManager {
 
-    @Override
-    public void addTask(Task task) {
-        task.setId(nextId++);
-        tasks.put(task.getId(), task);
-    }
+    ArrayList<Task> getHistory();
+    // Добавляем task-и
+    void addTask(Task task);
 
-    @Override
-    public Task getTask(int id) {
-        return tasks.get(id);
-    }
+    // Храним task-и
+    void updateTask(Task task);
 
-    @Override
-    public List<Task> getAllTasks() {
-        return new ArrayList<>(tasks.values());
-    }
+    // Извлекаем task-и
+    Task getTask(int id);
 
-    @Override
-    public void updateTask(Task task) {
-        tasks.put(task.getId(), task);
-    }
+    HashMap<Integer, Task> getTasks();
 
-    @Override
-    public void removeTask(int id) {
-        tasks.remove(id);
-    }
+    // Удаление
+    void deleteTask(int id);
 
-    @Override
-    public void addEpic(Epic epic) {
-        epic.setId(nextId++);
-        epics.put(epic.getId(), epic);
-    }
+    void deleteAllTasks();
 
-    @Override
-    public Epic getEpic(int id) {
-        return epics.get(id);
-    }
+    //Эпики
+    void addEpic(Epic epic);
 
-    @Override
-    public void updateEpic(Epic epic) {
-        epics.put(epic.getId(), epic);
-    }
+    void updateEpic(Epic epic);
 
-    @Override
-    public void removeEpic(int id) {
-        epics.remove(id);
-    }
+    Epic getEpic(int id);
 
-    @Override
-    public void addSubtask(Subtask subtask) {
-        subtask.setId(nextId++);
-        subtasks.put(subtask.getId(), subtask);
-        Epic epic = epics.get(subtask.getIdEpic());
-        epic.getEpicSubtasks().add(subtask.getId());
-    }
+    HashMap<Integer, Epic> getEpics();
 
-    @Override
-    public Subtask getSubtask(int id) {
-        return subtasks.get(id);
-    }
+    void deleteEpic(int id);
 
-    @Override
-    public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
-    }
+    void deleteAllEpics();
 
-    @Override
-    public void removeSubtask(int id) {
-        subtasks.remove(id);
-    }
+    //Подзадачи
+    void addSubtask(Subtask subtask);
 
-    @Override
-    public Map<Integer, Task> getTasks() {
-        return tasks;
-    }
+    void updateSubtask(Subtask subtask);
 
-    @Override
-    public Map<Integer, Epic> getEpics() {
-        return epics;
-    }
+    Subtask getSubtask(int id);
 
-    @Override
-    public Map<Integer, Subtask> getSubtasks() {
-        return subtasks;
-    }
+    HashMap<Integer, Subtask> getSubtasks();
+
+    void deleteSubtask(int id);
+
+    void deleteAllSubtask();
+
+    void deleteAllSubtasks();
 }
