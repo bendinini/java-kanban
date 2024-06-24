@@ -4,12 +4,14 @@ import models.Epic;
 import models.Subtask;
 import models.Task;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> tasks = new HashMap<>();
     protected Map<Integer, Epic> epics = new HashMap<>();
-    protected Map<Integer, Subtask> subtasks = new HashMap<>();
     protected int nextId = 1;
 
     @Override
@@ -25,7 +27,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getAllTasks() {
-        return new ArrayList<>(tasks.values());
+        return tasks.values().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -62,24 +64,38 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addSubtask(Subtask subtask) {
         subtask.setId(nextId++);
-        subtasks.put(subtask.getId(), subtask);
-        Epic epic = epics.get(subtask.getIdEpic());
-        epic.getEpicSubtasks().add(subtask.getId());
+        Epic epic = epics.get(subtask.getEpicId());
+        if (epic != null) {
+            epic.getEpicSubtasks().add(subtask.getId());
+        }
+        tasks.put(subtask.getId(), subtask);
     }
 
     @Override
     public Subtask getSubtask(int id) {
-        return subtasks.get(id);
+        Task task = tasks.get(id);
+        if (task instanceof Subtask) {
+            return (Subtask) task;
+        }
+        return null;
     }
 
     @Override
     public void updateSubtask(Subtask subtask) {
-        subtasks.put(subtask.getId(), subtask);
+        tasks.put(subtask.getId(), subtask);
     }
 
     @Override
     public void removeSubtask(int id) {
-        subtasks.remove(id);
+        Task task = tasks.get(id);
+        if (task instanceof Subtask) {
+            Subtask subtask = (Subtask) task;
+            Epic epic = epics.get(subtask.getEpicId());
+            if (epic != null) {
+                epic.getEpicSubtasks().remove(Integer.valueOf(id));
+            }
+        }
+        tasks.remove(id);
     }
 
     @Override
@@ -94,6 +110,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Map<Integer, Subtask> getSubtasks() {
-        return subtasks;
+        return tasks.values().stream()
+                .filter(task -> task instanceof Subtask)
+                .map(task -> (Subtask) task)
+                .collect(Collectors.toMap(Subtask::getId, subtask -> subtask));
     }
 }

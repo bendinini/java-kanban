@@ -5,7 +5,9 @@ import models.Subtask;
 import models.Task;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
@@ -23,7 +25,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("id,")) {
-                    continue; // пропуск заголовка
+                    continue;
                 }
                 String[] fields = line.split(",");
                 int id = Integer.parseInt(fields[0]);
@@ -66,8 +68,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 } else if (task instanceof Subtask) {
                     type = "SUBTASK";
                 }
-                String epicId = (task instanceof Subtask) ? String.valueOf(((Subtask) task).getIdEpic()) : "";
-                writer.write(String.format("%d,%s,%s,%s,%s,%s\n", task.getId(), type, task.getTitle(), task.getStatus(), task.getDescription(), epicId));
+                writer.write(String.format("%d,%s,%s,%s,%s",
+                        task.getId(), type, task.getTitle(), task.getStatus(), task.getDescription()));
+                if (task instanceof Subtask) {
+                    Subtask subtask = (Subtask) task;
+                    writer.write("," + subtask.getEpicId());
+                }
+                writer.write("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();

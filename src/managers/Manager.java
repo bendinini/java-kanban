@@ -4,22 +4,21 @@ import models.Epic;
 import models.Subtask;
 import models.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Manager extends InMemoryTaskManager {
     private int id;
-    private LinkedList<Object> taskHistory;
+    private LinkedList<Task> taskHistory;
 
     public Manager() {
         id = 0;
         taskHistory = new LinkedList<>();
     }
 
-    // Остальные методы и поля
 
-    private void updateHistory(Task task, LinkedList<Object> history) {
+
+    private void updateHistory(Task task, LinkedList<Task> history) {
         if (history.size() >= 10) {
             history.removeFirst();
         }
@@ -27,11 +26,9 @@ public class Manager extends InMemoryTaskManager {
     }
 
     private void checkEpicStatus(Epic epic) {
-        // Реализация метода checkEpicStatus
     }
 
     public static Manager getDefault() {
-        Manager manager = new Manager();
-        return manager;
+        return new Manager();
     }
 }

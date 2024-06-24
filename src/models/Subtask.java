@@ -1,25 +1,27 @@
 package models;
 
-import models.Epic;
-import models.Task;
-
 public class Subtask extends Task {
     private int idEpic;
     private Epic epic;
 
-    public Subtask(String title, String description, String status, int id, int epicId, Epic epic){
-        super(title, description);
+    public Subtask(String name, String description, String status, int id, int epicId, Epic epic) {
+        super(name, description);
         this.idEpic = epicId;
-        this.setStatus(status);
         this.epic = epic;
+        setId(id);
+        setStatus(status);
     }
 
-    public int getIdEpic() {
+    public int getEpicId() {
         return idEpic;
     }
 
     public Epic getEpic() {
         return epic;
+    }
+
+    public void setEpic(Epic epic) {
+        this.epic = epic;
     }
 
     @Override
